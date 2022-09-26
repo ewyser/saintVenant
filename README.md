@@ -186,7 +186,15 @@ git clone https://github.com/ewyser/saintVenant
 ```julia
 julia> using saintVenant
 [ Info: Precompiling saintVenant [c37ef97f-960b-44b2-99db-35f1aa5b9bae]
-julia> geoflow(20.0,10.0,200,"coulomb","HLLC")
+┌ Info: method(s) available:
+│       (✓) geoflow()
+│        └─ (✓) geoflow_D()
+│       (✓) runoff()
+│        └─ (✓) runoff_D()
+│       (✓) coast()
+└       (✓) basin()
+[ Info: viz/out/ and viz/dat/ path generated...
+julia> geoflow_D(20.0,10.0,100,"coulomb","HLLC",false)
 ```
 Then, the following lines should be seen on the REPL
 ```julia
