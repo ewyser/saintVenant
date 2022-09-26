@@ -1,5 +1,5 @@
 # Hydrostatic reconstruction & flux calculation for complex topography
-@views function fluxRus_D(UFS,U,z,g,nx,ny,dim) # see well-balanced scheme, e.g., http://www.lmm.jussieu.fr/~lagree/COURS/MFEnv/code_C_saintvenant.pdf
+@views function Rus!_D(UFS,U,z,g,nx,ny,dim) # see well-balanced scheme, e.g., http://www.lmm.jussieu.fr/~lagree/COURS/MFEnv/code_C_saintvenant.pdf
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -95,7 +95,7 @@
     end    
     return nothing
 end
-@views function fluxHLL_D(UFS,U,z,g,nx,ny,dim) # see well-balanced scheme, e.g., http://www.lmm.jussieu.fr/~lagree/COURS/MFEnv/code_C_saintvenant.pdf
+@views function HLL!_D(UFS,U,z,g,nx,ny,dim) # see well-balanced scheme, e.g., http://www.lmm.jussieu.fr/~lagree/COURS/MFEnv/code_C_saintvenant.pdf
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -225,14 +225,7 @@ end
     end    
     return nothing
 end
-
-
-
-
-
-
-
-@views function fluxHLLC_D(UFS,U,z,g,nx,ny,dim) # see well-balanced scheme, e.g., http://www.lmm.jussieu.fr/~lagree/COURS/MFEnv/code_C_saintvenant.pdf
+@views function HLLC!_D(UFS,U,z,g,nx,ny,dim) # see well-balanced scheme, e.g., http://www.lmm.jussieu.fr/~lagree/COURS/MFEnv/code_C_saintvenant.pdf
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
