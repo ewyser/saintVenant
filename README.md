@@ -1,24 +1,32 @@
 # ***saintVenant*** #
 ## **Description** 
-This is a small Julia project undertaken during an temporary position held at the "Centre de recherche sur l'environnement alpin" (CREALP, see https://crealp.ch). This small research project aims at solving conservative two-dimensional flow problems considering the following: 
+This is a small Julia project undertaken during an temporary position at the "Centre de recherche sur l'environnement alpin" (CREALP, see https://crealp.ch). It aims at solving conservative two-dimensional flow problems considering the following: 
  - the non-linear hyperbolic system of Saint-Venant equations under:
      - a finite volume method framework 
      - considering a Godunov-type first order solver, i.e., HLL/HLLC approximate Riemann solver.
      - with a well-balanced approach, i.e., the hydrostatic reconstruction
+ - GPU-based implementation for optimal performances
 
-This resulted in a Julia project, made publicly available on a Github repository. 
+This resulted in a Julia project currently still in development, made publicly available on a Github repository. Everyone is welcomed to have a look to the code and numerical routines. Few videos are showcased below.
 
 <p align="center">
-  <img src="docs/example/bowl_geoflow/HLL_wave.gif" width="400"/>
+<video src="docs/example/bowl_geoflow/runoff_python.mp4" controls="controls" style="max-width: 460px;">
+</video>
 </p>
 
-* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Coulomb-type geomaterial flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \rho g h \tan \phi \hat{\boldsymbol{u}}$, where $\hat{\boldsymbol{u}} = (u/||\boldsymbol{v}||_2,v/||\boldsymbol{v}||_2)^T$
-
+* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Coulomb-type geomaterial flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \rho g h \tan \phi \hat{\boldsymbol{u}}$, where $\hat{\boldsymbol{u}} = (u/||\boldsymbol{v}||_2,v/||\boldsymbol{v}||_2)^T$.
+<!---
 <p align="center">
   <img src="docs/example/bowl_newtonian/HLL_wave.gif" width="400"/>
 </p>
+-->
 
-* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \boldsymbol{0}$
+<p align="center">
+<video src="docs/example/vid/runoff_dem1m_half_python.mp4" controls="controls" style="max-width: 460px;">
+</video>
+</p>
+
+* **Fig |** Surface run-off $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down a complex real-case topography (i.e., upper Sion, Switzerland).
 
 ## **Content**
 1. [Theory](#id-section1)
@@ -127,7 +135,6 @@ The general structure is given below:
 │   ├── benchmark.jl
 │   ├── coast.jl
 │   ├── geoflow.jl
-│   ├── readDEM.jl
 │   ├── runoff.jl
 ├── src
 │   ├── fun
