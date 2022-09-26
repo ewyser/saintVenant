@@ -159,13 +159,6 @@ end
     @cuda blocks=cublocks threads=cuthreads getUh_D(U_D,h_D,Qx_D,Qy_D,nx,ny,2)
     Ubc_D = CUDA.zeros(Float64,nx+2,ny+2,3)
     UFS_D = CUDA.zeros(Float64,nx+1,ny+1,3,7)
-    # (:,:,:,1) UL
-    # (:,:,:,2) UR
-    # (:,:,:,3) FL
-    # (:,:,:,4) FR
-    # (:,:,:,5) SL
-    # (:,:,:,6) SR
-    # (:,:,:,7) F
     z_D   = CUDA.zeros(Float64,nx,ny)
     zbc_D = CUDA.zeros(Float64,nx+2,ny+2)
     copyto!(z_D,z)
