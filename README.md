@@ -121,19 +121,17 @@ The general structure is given below:
 │   ├── py_vs_ju
 │   ├── refs
 │   └── tex
+├── license
 ├── scripts
 │   ├── basin.jl
 │   ├── benchmark.jl
 │   ├── coast.jl
 │   ├── geoflow.jl
-│   ├── geoflow_D.jl
 │   ├── readDEM.jl
 │   ├── runoff.jl
-│   └── runoff_D.jl
 ├── src
 │   ├── fun
 │   ├── fun_D
-│   ├── run.sh
 │   └── saintVenant.jl
 ├── start_macOS.sh
 └── viz
