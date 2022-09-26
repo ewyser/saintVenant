@@ -1,4 +1,4 @@
-@views function runoff(path::String,xm::Tuple,ym::Tuple)
+@views function runoff(path::String,xm::Tuple,ym::Tuple,isViz::Bool)
     Dsim   = param("HLLC",
                     false,
                     "newtonian",
@@ -32,9 +32,13 @@
     CFL   = 0.5
     T     = 60.0*60.0
     tC    = 600.0
-    svSolverPerf(xc0,yc0,h,Qx,Qy,z0,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+    if isViz == true
+        svSolver(xc0,yc0,h,Qx,Qy,z0,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+    elseif isViz == false
+        svSolverPerf(xc0,yc0,h,Qx,Qy,z0,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+    end
 end
-@views function runoff_D(path::String,xm::Tuple,ym::Tuple)
+@views function runoff_D(path::String,xm::Tuple,ym::Tuple,isViz::Bool)
     Dsim   = param("HLLC",
                     false,
                     "newtonian",
@@ -68,7 +72,11 @@ end
     CFL   = 0.5
     T     = 60.0*60.0
     tC    = 600.0
-    svSolverPerf_D(xc0,yc0,h,Qx,Qy,z0,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+    if isViz == true
+        svSolver_D(xc0,yc0,h,Qx,Qy,z0,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+    elseif isViz == false
+        svSolverPerf_D(xc0,yc0,h,Qx,Qy,z0,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+    end
 end
 # https://techytok.com/lesson-parallel-computing
 # https://nbviewer.org/github/daniel-koehn/Differential-equations-earth-system/blob/master/10_Shallow_Water_Equation_2D/01_2D_Shallow_Water_Equations.ipynb

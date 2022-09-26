@@ -33,24 +33,27 @@ include(joinpath("./fun"  , "superInclude.jl"  )) # standard dependencies
     @info path_plot*" and "*path_save*" path generated..."    
 # include geoflow routine in saintVenant module
     @doc raw"""
-        geoflow(lx::Float64,ly::Float64,nx::Int64,rheoType::String,solvType::String,isGif::Bool): solves a non-linear hyperbolic 2D Saint-Venant problem considering a Coulomb-type rheology within a finite volume framework on a Cartesian grid
+        geoflow(lx::Float64,ly::Float64,nx::Int64,rheoType::String,solvType::String,isViz::Bool): solves a non-linear hyperbolic 2D Saint-Venant problem considering a Coulomb-type rheology within a finite volume framework on a Cartesian grid
         # args:
         - lx       : dimension along the x-direciton.
         - ly       : dimension along the y-direciton.
         - nx       : number of grid nodes along the x-direction.
         - rheoType : select the rheology, i.e., "coulomb", "newtonian" or "plastic"
         - solveType: select the numerical flux, i.e., "Rusanov", "HLL" or "HLLC"
-        - isGif    : generate .gif file, true or false
-        To run geoflow() on a GPU, add _D, i.e., geoflow_D(lx::Float64,ly::Float64,nx::Int64,rheoType::String,solvType::String)
+        - isViz    : plot or save, true or false
+        To run geoflow() on a GPU, add _D, i.e., geoflow_D(lx::Float64,ly::Float64,nx::Int64,rheoType::String,solvType::String,isViz::Bool)
     """
     geoflow()
     include(joinpath("../scripts", "geoflow.jl"))
 # include runoff routine in saintVenant module
     @doc raw"""
-        runoff(path::String): solves a non-linear hyperbolic 2D Saint-Venant problem considering a Newtonian-type rheology within a finite volume framework on a Cartesian grid
+        runoff(path::String, xm::Tuple,ym::Tuple,isViz::Bool): solves a non-linear hyperbolic 2D Saint-Venant problem considering a Newtonian-type rheology within a finite volume framework on a Cartesian grid
         # args:
         - path     : path (absolute or relative) to a DSM/DTM/DEM in .asc format
-        On Windows OS, use "/" instead of "\"
+        - xm       : min and max coordinates along x-direction
+        - ym       : min and max coordinates along y-direction
+        - isViz    : plot or save, true or false
+        On Windows OS, use "/" instead of "\" for the path 
     """
     runoff()
     include(joinpath("../scripts", "runoff.jl"))
