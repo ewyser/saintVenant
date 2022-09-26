@@ -50,6 +50,7 @@
     @cuda blocks=cublocks threads=cuthreads getUh_D(U_D,h_D,Qx_D,Qy_D,nx,ny,2)
     Ubc_D = CUDA.zeros(Float64,nx+2,ny+2,3)
     UFS_D = CUDA.zeros(Float64,nx+1,ny+1,3,7)
+    # (1:nx,1:ny,1:3,1:7) UL-UR-FL-FR-SL-SR,F
     # (:,:,:,1) UL
     # (:,:,:,2) UR
     # (:,:,:,3) FL
@@ -80,7 +81,6 @@
     while t<T
     	# adaptative Δt
         Δt  = getΔt(Array(h_D),Array(Qx_D),Array(Qy_D),g,Δx,Δy,CFL,nx,ny)
-        #Δt  = getΔt(Array(h_D),Array(Qx_D),Array(Qy_D),g,Δx,Δy,CFL,nx,ny)
         # advection step solution
         advSolve_D(cublocks,cuthreads,h_D,Qx_D,Qy_D,UFS_D,Ubc_D,U_D,zbc_D,z_D,g,Δx,Δy,Δt,nx,ny,solv_type)
         # source step solution
