@@ -11,7 +11,8 @@ include(joinpath("./fun"  , "superInclude.jl"  )) # standard dependencies
              "(✓) coast()  \n\t",
              "(✓) basin()"]   
         @info t[1]*t[2]*t[3]*t[4]*t[5]
-    catch
+    catch err
+        @error err
         @warn "CUDA dependencies not found: [.]_D generic methods might not be working on device\nCUDA package should be manually added"
         t = ["method(s) available:\n\t",
              "(✓) geoflow()\n\t └─ (✗) geoflow_D()\n\t",
