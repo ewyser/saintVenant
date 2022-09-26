@@ -5,12 +5,12 @@ This is a small Julia project undertaken during an temporary position at the "Ce
      - a finite volume method framework 
      - considering a Godunov-type first order solver, i.e., HLL/HLLC approximate Riemann solver.
      - with a well-balanced approach, i.e., the hydrostatic reconstruction
- - GPU-based implementation for optimal performances
+ - GPU-based implementation for optimal performances (only working for Nvidia GPUs, i.e., ```CUDA```)
 
-This resulted in a Julia project currently still in development, made publicly available on a Github repository. Everyone is welcomed to have a look to the code and numerical routines. Few videos are showcased below.
+This resulted in a Julia project currently still in development, made publicly available on a Github repository. Everyone is welcomed to have a look to the project and the associated numerical routines. Few videos are showcased below.
 
 <p align="center">
-<video src="docs/example/bowl_geoflow/runoff_python.mp4" controls="controls" style="max-width: 460px;">
+<video src="docs/example/vid/geoflow.mp4" controls="controls" style="max-width: 460px;">
 </video>
 </p>
 
@@ -22,11 +22,11 @@ This resulted in a Julia project currently still in development, made publicly a
 -->
 
 <p align="center">
-<video src="docs/example/vid/runoff_dem1m_half_python.mp4" controls="controls" style="max-width: 460px;">
+<video src="docs/example/vid/runoff_dem1m.mp4" controls="controls" style="max-width: 460px;">
 </video>
 </p>
 
-* **Fig |** Surface run-off $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down a complex real-case topography (i.e., upper Sion, Switzerland).
+* **Fig |** Surface run-off $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down a complex real-case topography (i.e., upper Sion, Switzerland, resolution $\Delta_{x,y}=1$ in [m]).
 
 ## **Content**
 1. [Theory](#id-section1)
@@ -132,7 +132,6 @@ The general structure is given below:
 ├── license
 ├── scripts
 │   ├── basin.jl
-│   ├── benchmark.jl
 │   ├── coast.jl
 │   ├── geoflow.jl
 │   ├── runoff.jl
@@ -161,7 +160,7 @@ git clone https://github.com/ewyser/saintVenant
 ```
 2. Navigate to ``` ./saintVenant ``` 
 3. Launch Julia (on macOS, drag & drop ```start_macOS.sh``` in the terminal without navigating in terminal)
-```julia
+```julia-repl
 % julia --project  
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
@@ -174,7 +173,7 @@ git clone https://github.com/ewyser/saintVenant
 
 ```
 4. Enter pkg mode ``` ] ``` and instantiate the environment
-```julia
+```julia-repl
 (saintVenant) pkg> activate .
 (saintVenant) pkg> instantiate 
 (saintVenant) pkg> st
@@ -190,7 +189,7 @@ git clone https://github.com/ewyser/saintVenant
   [92933f4c] ProgressMeter v1.7.2
 ```
 5. Run a script for a Coulomb-type rheology with HLLC approximate Riemann solver, i.e., geoflow(). 
-```julia
+```julia-repl
 julia> using saintVenant
 [ Info: Precompiling saintVenant [c37ef97f-960b-44b2-99db-35f1aa5b9bae]
 ┌ Info: method(s) available:
