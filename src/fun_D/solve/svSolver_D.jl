@@ -46,6 +46,7 @@
     copyto!(Qy_D,Qy)
     U     = zeros(Float64,nx,ny,3)
     U_D   = CUDA.zeros(Float64,nx,ny,3)
+    @cuda blocks=cublocks threads=cuthreads getUh_D(U_D,h_D,Qx_D,Qy_D,nx,ny,2)
     Ubc_D = CUDA.zeros(Float64,nx+2,ny+2,3)
     UFS_D = CUDA.zeros(Float64,nx+1,ny+1,3,7)
     # (:,:,:,1) UL
