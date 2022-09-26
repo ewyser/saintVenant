@@ -36,15 +36,7 @@ end
     cx = 0.0
     cy = 0.0
     Δ  = min(Δx,Δy)
-    for j ∈ 1:ny
-        for i ∈ 1:nx
-            if h[i,j] > 0.0
-                u  = Qx[i,j]/(h[i,j])
-                v  = Qy[i,j]/(h[i,j])
-                cx = max(cx,abs(u)+sqrt(g*h[i,j]))
-                cy = max(cy,abs(v)+sqrt(g*h[i,j]))
-            end
-        end
-    end
-    return CFL*Δ/(max(cx,cy))
+    cx = findmax(abs.(Qx./h).+sqrt.(g.*h))
+    cy = findmax(abs.(Qy./h).+sqrt.(g.*h))    
+    return CFL*Δ/(max(cx[1],cy[1]))
 end
