@@ -67,6 +67,7 @@ with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutori
 
 	fig0.patch.set_facecolor('black')
 	plt.savefig('./img/DTM.png', dpi=300)
+	#plt.savefig('./img/DTM.png', dpi=300, transparency=True)
 	cb0.remove()
 	plt.draw()
 	ax0.cla()

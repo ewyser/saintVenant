@@ -50,6 +50,7 @@ if not os.path.exists('./img'):
 
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 fig, ax = plt.subplots(figsize=(4,4)) 
+#with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html, https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html
 for k in range(0,nsave+1,1):
 	# load data
 	name = "./dat/tdt_"+str(k)+".csv"
@@ -76,5 +77,4 @@ for k in range(0,nsave+1,1):
 	plt.draw()
 	ax.cla()
 	print(" completion: "+str(round(k/nsave,2))+"\r")
-
-	
+	 
