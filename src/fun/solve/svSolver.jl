@@ -36,7 +36,7 @@
     end
     ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
     println("[=> generating final plots, exporting & exiting...")
-    savefig(path_plot*solv_type*"hf.png")
+    savefig(path_plot*"hf_"*solv_type*".png")
     println("[=> done! exiting...")
     return nothing
 end
