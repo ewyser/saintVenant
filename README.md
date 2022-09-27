@@ -202,8 +202,8 @@ julia> using saintVenant
 [ Info: viz/out/ and viz/dat/ path generated...
 julia> geoflow_D(20.0,10.0,100,"coulomb","HLLC",false)
 ```
-Then, the following lines should be seen on the REPL
-```julia
+Then, the following lines should be seen within the Julia REPL
+```julia-repl
 [=> generating initial plots & exporting...
 ┌ Info: Figs saved in
 └   path_plot = "viz/out/"
