@@ -9,24 +9,24 @@ This is a small Julia project undertaken during an temporary position at the "Ce
 
 This resulted in a Julia project currently still in development, made publicly available on a Github repository. Everyone is welcomed to have a look to the project and the associated numerical routines. Few videos are showcased below.
 
+
+<p align="center">
+  <img src="./docs/example/vid/geoflow.gif" width="400"/>
+</p>
+<!---
 <p align="center">
 <video src="./docs/example/vid/geoflow.mp4" controls="controls" style="max-width: 460px;">
 </video>
 </p>
-
-* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Coulomb-type geomaterial flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \rho g h \tan \phi \hat{\boldsymbol{u}}$, where $\hat{\boldsymbol{u}} = (u/||\boldsymbol{v}||_2,v/||\boldsymbol{v}||_2)^T$.
-<!---
-<p align="center">
-  <img src="./docs/example/bowl_newtonian/HLL_wave.gif" width="400"/>
-</p>
 -->
 
+* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Coulomb-type geomaterial flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \rho g h \tan \phi \hat{\boldsymbol{u}}$, where $\hat{\boldsymbol{u}} = (u/||\boldsymbol{v}||_2,v/||\boldsymbol{v}||_2)^T$.
+
 <p align="center">
-<video src="./docs/example/vid/runoff_dem1m.mp4" controls="controls" style="max-width: 460px;">
-</video>
+  <img src="./docs/example/vid/runoff_1m.gif" width="400"/>
 </p>
 
-* **Fig |** Surface run-off $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down a complex real-case topography (i.e., upper Sion, Switzerland, resolution $\Delta_{x,y}=1$ in [m]).
+* **Fig |** Surface run-off $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down a complex real-case topography (i.e., upper Sion, Switzerland, with DTM resolution $\Delta_{x,y}=1$ in [m]).
 
 ## **Content**
 1. [Theory](#id-section1)
