@@ -3,10 +3,8 @@ import sys
 from moviepy.editor import *
 from pathlib import Path
 
-
 img_clips = []
 path_list=[]
-
 #accessing path of each image
 for image in sorted(os.listdir('img/')):
     if image.endswith(".png"):
