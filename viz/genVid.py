@@ -1,5 +1,8 @@
+# python genVid.py <NameOfVid>
+import sys
 from moviepy.editor import *
 from pathlib import Path
+
 
 img_clips = []
 path_list=[]
@@ -15,4 +18,4 @@ for img_path in path_list:
 #concatenating slides
 video_slides = concatenate_videoclips(img_clips, method='compose')
 #exporting final video
-video_slides.write_videofile("runoff_python.mp4", fps=10, codec="libx264")
+video_slides.write_videofile(sys.argv[1]+".mp4", fps=10, codec="libx264")
