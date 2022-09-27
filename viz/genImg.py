@@ -54,7 +54,7 @@ lvl = np.linspace(round(np.amin(z)),round(np.amax(z)),20)
 lvl = np.arange(round(np.amin(z)),round(np.amax(z)),10)
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 
-with plt.style.context('dark_background'):
+with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html
 	fig0, ax0 = plt.subplots(figsize=(4,4)) 
 	im0 = ax0.imshow(z, extent=lim, cmap='gist_earth', alpha=1.0, interpolation='bicubic', vmin=z.min(), vmax=z.max())
 	fig0.gca().set_aspect('equal', adjustable='box')
