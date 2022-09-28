@@ -1,3 +1,4 @@
+# python3 genImg.py
 import math
 import time
 import datetime
@@ -9,7 +10,6 @@ import os
 
 # https://www.oreilly.com/library/view/python-data-science/9781491912126/ch04.html
 
-# python3 display.py
 # latex 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -48,6 +48,8 @@ al=np.ones((ny,nx),dtype=float)
 if not os.path.exists('./img'):
 	os.makedirs('./img') 
 
+#lvls=[0.031,0.062,0.125,0.25,0.5]
+lvl =np.linspace(0.01,0.5,num=10,endpoint=True,dtype=float)
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 fig, ax = plt.subplots(figsize=(4,4)) 
 #with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html, https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html
@@ -63,7 +65,7 @@ for k in range(0,nsave+1,1):
 	im = ax.imshow(hs, extent=lim, cmap='binary_r', alpha=1.0, interpolation='bicubic'                                           )
 	im = ax.imshow(h , extent=lim, origin='lower', cmap='hot_r' , alpha=h/np.amax(h), interpolation='bicubic',vmin=0.0,vmax=0.5)
 	cb=fig.colorbar(im, orientation = 'horizontal',shrink=0.5,extend='max',pad=0.2,label=r'$h(x,y)$ [m]')
-	im = ax.contour(xc,yc, np.transpose(h) , colors='black',linewidths=1.0,levels=[0.031,0.062,0.125,0.25,0.5])
+	im = ax.contour(xc,yc, np.transpose(h) , colors='black',linewidths=1.0,levels=lvl)
 	ax.clabel(im,inline=True, fontsize=5)
 	fig.gca().set_aspect('equal', adjustable='box')
 	plt.xlabel('Easting [m]')

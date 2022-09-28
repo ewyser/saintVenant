@@ -1,3 +1,4 @@
+# python3 genImg.py
 import math
 import time
 import datetime
@@ -11,7 +12,6 @@ from matplotlib import cm
 import csv 
 import os
 
-# python3 display.py
 # latex 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
