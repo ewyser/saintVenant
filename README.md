@@ -200,7 +200,7 @@ julia> using saintVenant
 │       (✓) coast()
 └       (✓) basin()
 [ Info: viz/out/ and viz/dat/ path generated...
-julia> geoflow_D(20.0,10.0,100,"coulomb","HLLC",false)
+julia> geoflow_D(20.0,10.0,100,5.0,"coulomb","HLLC",false)
 ```
 Then, the following lines should be seen within the Julia REPL
 ```julia-repl

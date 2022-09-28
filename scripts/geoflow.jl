@@ -1,4 +1,4 @@
-@views function geoflow(lx::Float64,ly::Float64,nx::Int64,rheoType::String,solvType::String,isViz::Bool)
+@views function geoflow(lx::Float64,ly::Float64,nx::Int64,T::Float64,rheoType::String,solvType::String,isViz::Bool)
     Dsim   = param(solvType,false,rheoType,false)
     #Dsim   = param("HLLC",false,"newtonian",false)
     # physical constant
@@ -11,7 +11,6 @@
     #h,z,xc,yc,Δx,Δy = bowl_floor(lx,ly,nx,ny)
     # action
     CFL    = 0.5
-    T      = 5.0
     tC     = 1.0/25.0
     if isViz == true
         svSolver(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
@@ -19,7 +18,7 @@
         svSolverPerf(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
     end
 end
-@views function geoflow_D(lx::Float64,ly::Float64,nx::Int64,rheoType::String,solvType::String,isViz::Bool)
+@views function geoflow_D(lx::Float64,ly::Float64,nx::Int64,T::Float64,rheoType::String,solvType::String,isViz::Bool)
     Dsim   = param(solvType,false,rheoType,false)
     #Dsim   = param("HLLC",false,"newtonian",false)
     # physical constant
@@ -32,7 +31,6 @@ end
     #h,z,xc,yc,Δx,Δy = bowl_floor(lx,ly,nx,ny)
     # action
     CFL    = 0.5
-    T      = 5.0
     tC     = 1.0/25.0
     if isViz == true
         svSolver_D(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
