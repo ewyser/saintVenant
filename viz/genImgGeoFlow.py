@@ -71,7 +71,9 @@ for k in range(0,nsave+1,1):
 	plt.xlabel('Easting [m]')
 	plt.ylabel('Northing [m]')	
 
-	plt.title("$t_{\mathrm{e}}$ = "+str(time.strftime('%H:%M:%S',time.gmtime(t)))+" [s]")
+
+
+	plt.title("$t_{\mathrm{e}}$ = "+str(time.strftime('%H:%M:%S.',time.gmtime(t)))+format(int(1000.0*round(1-(math.ceil(t)-t),3)),'03')+" [s]")
 	# save plot & reinit
 
 	plt.savefig('./img/h_'+str(k).zfill(3)+'.png', dpi=300)
