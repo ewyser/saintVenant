@@ -13,28 +13,14 @@
         S[i,j,2] = 0.0
         S[i,j,3] = 0.0
         if U[i,j,1]>0.0
-            u  = U[i,j,2]/(U[i,j,1])   # x-component velocity
-            v  = U[i,j,3]/(U[i,j,1])   # y-component velocity
-            w  = sqrt(u^2+v^2)      # magnitude L2 of the velocity
-            if i==1
-                αx = atan((z[i+1,j]-z[nx ,j])/(2.0*Δx))                            
-            elseif i==nx
-                αx = atan((z[1  ,j]-z[i-1,j])/(2.0*Δx))
-            else 
-                αx = atan((z[i+1,j]-z[i-1,j])/(2.0*Δx))                            
-            end
-            if j==1
-                αy = atan((z[i,j+1]-z[i,ny ])/(2.0*Δy))                            
-            elseif j==ny
-                αy = atan((z[j,1  ]-z[i,j-1])/(2.0*Δy))
-            else 
-                αy = atan((z[i,j+1]-z[i,j-1])/(2.0*Δy))                            
-            end
+            u = U[i,j,2]/(U[i,j,1])   # x-component velocity
+            v = U[i,j,3]/(U[i,j,1])   # y-component velocity
+            w = sqrt(u^2+v^2)      # magnitude L2 of the velocity
             if w>0.0
                 μ  = (μ0-μw)/(1.0+w/W)+μw   # velocity-dependent friction model, see yamada etal, 2018
                 τ  = ρs*g*U[i,j,1]*μ        # basal frictional/shear resistance law, see 
-                τx = τ*cos(αx)*(u/w)        # x-component basal shear
-                τy = τ*cos(αy)*(v/w)        # y-component basal shear
+                τx = τ*(u/w)        # x-component basal shear
+                τy = τ*(v/w)        # y-component basal shear
             else 
                 τx = 0.0
                 τy = 0.0
