@@ -1,4 +1,4 @@
-@views function svSolver(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+@views function svSolver(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,lx,ly,Δx,Δy,nx,ny,Dsim)
     solv_type  = Dsim.solv_type
     make_gif   = Dsim.make_gif
     flow_type  = Dsim.flow_type
@@ -32,15 +32,15 @@
                 fig=gr(size=(2*250,2*125),markersize=2.5)       
                     fig=h_plot(xc,yc,h,0.5,nx,ny,t,flow_type)
         end
-        next!(prog;showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
+        next!(prog;showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
     end
-    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
+    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
     println("[=> generating final plots, exporting & exiting...")
     savefig(path_plot*"hf_"*solv_type*".png")
     println("[=> done! exiting...")
     return nothing
 end
-@views function svSolverPerf(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+@views function svSolverPerf(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,lx,ly,Δx,Δy,nx,ny,Dsim)
     solv_type  = Dsim.solv_type
     make_gif   = Dsim.make_gif
     flow_type  = Dsim.flow_type
@@ -84,9 +84,9 @@ end
             ctr+=1
 
         end
-        next!(prog;showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
+        next!(prog;showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
     end
-    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
+    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
     param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL,"nsave"=>ctr-1)
     CSV.write(path_save*"parameters.csv",param)
     @info "Data saved in" path_save  
