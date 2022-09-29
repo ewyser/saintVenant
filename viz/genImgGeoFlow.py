@@ -46,8 +46,8 @@ al=np.ones((ny,nx),dtype=float)
 if not os.path.exists('./img'):
 	os.makedirs('./img') 
 
-#lvls=[0.031,0.062,0.125,0.25,0.5]
-lvl =np.linspace(0.01,0.5,num=7,endpoint=True,dtype=float)
+lvl=[0.031,0.062,0.125,0.25,0.5]
+#lvl =np.linspace(0.01,0.5,num=7,endpoint=True,dtype=float)
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 fig, ax = plt.subplots(figsize=(4,4)) 
 #with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html, https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html

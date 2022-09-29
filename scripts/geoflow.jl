@@ -11,6 +11,13 @@
     #h,z,xc,yc,Δx,Δy = bowl_floor(lx,ly,nx,ny)
     # action
     CFL    = 0.5
+    if T<=60.0
+        tC = 1.0/25.0
+    elseif T>60.0 && T<=3600.0
+        tC = 60.0/25.0
+    elseif T>3600.0
+        tC = 3600.0/25.0
+    end
     tC     = 1.0/25.0
     if isViz == true
         svSolver(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
@@ -31,7 +38,13 @@ end
     #h,z,xc,yc,Δx,Δy = bowl_floor(lx,ly,nx,ny)
     # action
     CFL    = 0.5
-    tC     = 1.0/25.0
+    if T<=60.0
+        tC = 1.0/25.0
+    elseif T>60.0 && T<=3600.0
+        tC = 60.0/25.0
+    elseif T>3600.0
+        tC = 3600.0/25.0
+    end
     if isViz == true
         svSolver_D(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,lx,ly,Δx,Δy,nx,ny,Dsim)
     elseif isViz == false
