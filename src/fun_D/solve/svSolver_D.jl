@@ -54,9 +54,9 @@
                 fig=gr(size=(2*250,2*125),markersize=2.5)       
                     fig=h_plot(xc,yc,Array(h_D),0.5,nx,ny,t,flow_type)
         end
-        next!(prog;showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
+        next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
-    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
+    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T [%]",100.0)])
     println("[=> generating final plots, exporting & exiting...")
     savefig(path_plot*"hf_"*solv_type*"_D.png")
     println("[=> done! exiting...")
@@ -128,9 +128,9 @@ end
             CSV.write(path_save*"tdt_"*string(ctr)*".csv",savedData)
             ctr+=1
         end
-        next!(prog;showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
+        next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
-    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(lx,ly)),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
+    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T [%]",100.0)])
     param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL,"nsave"=>ctr-1)
     CSV.write(path_save*"parameters.csv",param)
     @info "Data saved in" path_save  
