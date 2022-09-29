@@ -47,7 +47,7 @@ if not os.path.exists('./img'):
 	os.makedirs('./img') 
 
 #lvls=[0.031,0.062,0.125,0.25,0.5]
-lvl =np.linspace(0.01,0.5,num=5,endpoint=True,dtype=float)
+lvl =np.linspace(0.01,0.5,num=7,endpoint=True,dtype=float)
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 fig, ax = plt.subplots(figsize=(4,4)) 
 #with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html, https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html
@@ -60,6 +60,7 @@ for k in range(0,nsave+1,1):
 	D    = np.genfromtxt(name, delimiter=',')
 	h    = np.reshape(D[1:nx*ny+1,0],(ny,nx))
 	opa  = h/np.amax(h)
+	#opa  = np.ones((ny,nx),dtype=float)
 	opa[h<=0.01] = 0.0
 	# plot data
 	im = ax.imshow(hs, extent=lim, cmap='binary_r', alpha=1.0, interpolation='bicubic'                                           )
@@ -76,5 +77,5 @@ for k in range(0,nsave+1,1):
 	cb.remove()
 	plt.draw()
 	ax.cla()
-	print(" completion: "+str(round(k/nsave,2))+"\r")
-	 
+	print(" completion: "+str(round(k/nsave,2)*100.0)+" %",end="\r") 
+print("\n done!\n")

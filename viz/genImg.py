@@ -37,7 +37,7 @@ print('o---------------------------------------------o')
 print('|               ** Plot data **               |')
 print('o---------------------------------------------o')
 print('generate fig & export to h_*.png')
-
+print("go fetch yourself a coffee, may take a while...")
 
 
 #plt.ion()
@@ -96,6 +96,6 @@ for k in range(0,nsave+1,1):
 	cb.remove()
 	plt.draw()
 	ax.cla()
-	print(" completion: "+str(round(k/nsave,2)*100)+" %",end="\r")
+	print(" completion: "+str(round(k/nsave,2)*100)+" %",end="\r")                                                                                                        
 print("\n done!\n")
 	
