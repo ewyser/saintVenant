@@ -61,9 +61,11 @@ for k in range(0,nsave+1,1):
 	name = "./dat/hQxQy_"+str(k)+".csv"
 	D    = np.genfromtxt(name, delimiter=',')
 	h    = np.reshape(D[1:nx*ny+1,0],(ny,nx))
+	opa  = h/np.amax(h)
+	opa[h<=0.01] = 0.0
 	# plot data
 	im = ax.imshow(hs, extent=lim, cmap='binary_r', alpha=1.0, interpolation='bicubic'                                           )
-	im = ax.imshow(h , extent=lim, origin='lower', cmap='hot_r' , alpha=h/np.amax(h), interpolation='bicubic',vmin=0.0,vmax=0.5)
+	im = ax.imshow(h , extent=lim, origin='lower', cmap='hot_r' , alpha=opa, interpolation='bicubic',vmin=0.0,vmax=0.5)
 	cb=fig.colorbar(im, orientation = 'horizontal',shrink=0.5,extend='max',pad=0.2,label=r'$h(x,y)$ [m]')
 	im = ax.contour(xc,yc, np.transpose(h) , colors='black',linewidths=1.0,levels=lvl)
 	ax.clabel(im,inline=True, fontsize=5)
