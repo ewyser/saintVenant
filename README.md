@@ -205,7 +205,7 @@ julia> using saintVenant
 │       (✓) coast()
 └       (✓) basin()
 [ Info: viz/out/ and viz/dat/ path generated...
-julia> geoflow_D(20.0,10.0,100,5.0,"coulomb","HLLC",false)
+julia> geoflow_D(20.0,10.0,100,5.0,1.0/25.0,"coulomb","HLLC",false)
 ```
 Then, the following lines should be seen within the Julia REPL
 ```julia-repl
@@ -214,9 +214,10 @@ Then, the following lines should be seen within the Julia REPL
 └   path_plot = "viz/out/"
 [=> action!
 ✓ working hard: 	 Time: 0:00:06 (16.84 ms/it)
-  [nx,ny]:       (200, 100)
-  iteration(s):  367
-  (✓) t/T:       1.0
+  [lx,ly]:       (10.0, 10.0)
+  [nx,ny]:       (200, 200)
+  iteration(s):  551
+  (✓) t/T [%]:   100.0
 [=> generating final plots, exporting & exiting...
 [=> done! exiting...
 ```
