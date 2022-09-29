@@ -50,9 +50,9 @@
         t  += Δt
         it += 1
         if t > ctr*tC
+            fig=gr(size=(2*250,2*125),markersize=2.5)       
+                fig=h_plot(xc,yc,Array(h_D),0.5,nx,ny,t,flow_type)
             ctr+=1
-                fig=gr(size=(2*250,2*125),markersize=2.5)       
-                    fig=h_plot(xc,yc,Array(h_D),0.5,nx,ny,t,flow_type)
         end
         next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
