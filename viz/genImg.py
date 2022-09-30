@@ -1,3 +1,4 @@
+# python3 genImg.py
 import math
 import time
 import datetime
@@ -11,7 +12,6 @@ from matplotlib import cm
 import csv 
 import os
 
-# python3 display.py
 # latex 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -37,6 +37,8 @@ print('o---------------------------------------------o')
 print('|               ** Plot data **               |')
 print('o---------------------------------------------o')
 print('generate fig & export to h_*.png')
+print("go fetch yourself a coffee, may take a while...")
+
 
 #plt.ion()
 n  = "./dat/zhs.csv"
@@ -52,19 +54,23 @@ lvl = np.linspace(round(np.amin(z)),round(np.amax(z)),20)
 lvl = np.arange(round(np.amin(z)),round(np.amax(z)),10)
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 
-fig0, ax0 = plt.subplots(figsize=(4,4)) 
-im0 = ax0.imshow(z, extent=lim, cmap='gist_earth', alpha=1.0, interpolation='bicubic', vmin=z.min(), vmax=z.max())
-fig0.gca().set_aspect('equal', adjustable='box')
-plt.xlabel('Easting [m]')
-plt.ylabel('Northing [m]')	
-cb0=fig0.colorbar(im0, orientation = 'horizontal',extend='max',pad=0.2,label=r'$z(x,y)$ [m]',shrink=0.5)
-im0 = ax0.contour(xc,yc, np.transpose(np.flip(z,axis=0)), levels=lvl, colors='black',linewidths=0.5)
-ax0.clabel(im0,inline=True, fontsize=3.75)
-plt.title('DTM, $\Delta_{x,y}=$ '+str(round(dx))+' [m]')
-plt.savefig('./img/DTM.png', dpi=300)
-cb0.remove()
-plt.draw()
-ax0.cla()
+with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html
+	fig0, ax0 = plt.subplots(figsize=(4,4)) 
+	im0 = ax0.imshow(z, extent=lim, cmap='gist_earth', alpha=1.0, interpolation='bicubic', vmin=z.min(), vmax=z.max())
+	fig0.gca().set_aspect('equal', adjustable='box')
+	plt.xlabel('Easting [m]')
+	plt.ylabel('Northing [m]')	
+	cb0=fig0.colorbar(im0, orientation = 'horizontal',extend='max',pad=0.2,label=r'$z(x,y)$ [m]',shrink=0.5)
+	im0 = ax0.contour(xc,yc, np.transpose(np.flip(z,axis=0)), levels=lvl, colors='black',linewidths=0.5)
+	ax0.clabel(im0,inline=True, fontsize=3.75)
+	plt.title('DTM, $\Delta_{x,y}=$ '+str(round(dx))+' [m]')
+
+	fig0.patch.set_facecolor('black')
+	plt.savefig('./img/DTM.png', dpi=300)
+	#plt.savefig('./img/DTM.png', dpi=300, transparency=True)
+	cb0.remove()
+	plt.draw()
+	ax0.cla()
 
 fig, ax = plt.subplots(figsize=(4,4)) 
 for k in range(0,nsave+1,1):
@@ -90,6 +96,6 @@ for k in range(0,nsave+1,1):
 	cb.remove()
 	plt.draw()
 	ax.cla()
-	print(" completion: "+str(round(k/nsave,2)*100)+" %",end="\r")
+	print(" completion: "+str(round(k/nsave,2)*100)+" %",end="\r")                                                                                                        
 print("\n done!\n")
 	

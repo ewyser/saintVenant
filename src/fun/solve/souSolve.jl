@@ -27,8 +27,8 @@
                 if w>0.0
                     μ  = (μ0-μw)/(1.0+w/W)+μw   # velocity-dependent friction model, see yamada etal, 2018
                     τ  = ρs*g*h[i,j]*μ          # basal frictional/shear resistance law, see 
-                    τx = τ*cos(αx)*(u/w)        # x-component basal shear
-                    τy = τ*cos(αy)*(v/w)        # y-component basal shear
+                    τx = τ*(u/w)        # x-component basal shear
+                    τy = τ*(v/w)        # y-component basal shear
                 else 
                     τx = 0.0
                     τy = 0.0

@@ -171,26 +171,29 @@ end
     # set initial fluid height
     hi = 1.0/2.0
     h  = zeros(Float64,nx,ny)
-    xc0 = lx/2
-    yc0 = 0.2*ly
-    for i ∈ 1:nx
-        for j ∈ 1:ny
-            d = (xc[i]-xc0)^2+(yc[j]-yc0)^2
-            if d<=lx/10
-                h[i,j]=hi-δz[i,j]
-            end
-        end
-    end
+    
     xc0 = lx/2
     yc0 = 0.8*ly
     for i ∈ 1:nx
         for j ∈ 1:ny
             d = (xc[i]-xc0)^2+(yc[j]-yc0)^2
             if d<=lx/10
-                h[i,j]=hi-δz[i,j]
+                h[i,j]=max(0.0,hi-δz[i,j])
             end
         end
     end
+    #=
+    xc0 = lx/2
+    yc0 = 0.2*ly
+    for i ∈ 1:nx
+        for j ∈ 1:ny
+            d = (xc[i]-xc0)^2+(yc[j]-yc0)^2
+            if d<=lx/10
+                h[i,j]=max(0.0,hi-δz[i,j])
+            end
+        end
+    end
+    =#
     return(h,z,xc,yc,Δx,Δy)
 end
 @views function bowl_floor_noΔz(lx,ly,nx,ny)
@@ -292,14 +295,13 @@ end
     xc0    = lx/2.5
     yc0    = 0.5*ly
     R      = lx/20
-    hbump  = 0.0*0.91
+    hbump  = 1.0*0.91
     H      = hbump/exp(-1.0/R^2)
     for i ∈ 1:nx
         for j ∈ 1:ny
             r = (xc[i]-xc0)^2+(yc[j]-yc0)^2
             if r<=R
-                z[i,j]+=H*exp(-1.0/(R^2-((xc[i]-xc0)^2+(yc[j]-yc0)^2)  ))
-
+                #z[i,j]+=H*exp(-1.0/(R^2-((xc[i]-xc0)^2+(yc[j]-yc0)^2)  ))
             end
         end
     end

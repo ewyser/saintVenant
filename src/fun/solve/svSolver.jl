@@ -1,34 +1,12 @@
-@views function svSolver(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+@views function svSolver(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,lx,ly,Δx,Δy,nx,ny,Dsim)
     solv_type  = Dsim.solv_type
     make_gif   = Dsim.make_gif
     flow_type  = Dsim.flow_type
     pcpt_onoff = Dsim.pcpt_onoff
     println("[=> generating initial plots & exporting...")
     # display initial stuffs
-    η0   = minimum(h.+z)
-    zmin = minimum(z)
-    ηmax0= maximum(h.+z)
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        z_plot(xc,yc,z)
-    savefig(path_plot*"plot_z_init.png")
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        h_plot(xc,yc,h,maximum(h),nx,ny,0.0,flow_type)
-    savefig(path_plot*"plot_h_init.png")
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        free_surface_plot(xc,yc,h,z,η0,0.75*(ηmax0-η0),nx,ny,0.0)
-    savefig(path_plot*"plot_eta_init.png")
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        wave_plot(xc,yc,h,z,η0,(ηmax0-η0),nx,ny,0.0)
-    savefig(path_plot*"plot_wave_height_init.png")
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        profile_plot(xc,yc,h,z,zmin,10.0,nx,ny,0.0)
-    savefig(path_plot*"plot_profile_init.png")   
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        hs=hillshade(z,Δx,Δy,45.0,315.0,nx,ny)
-        hillshade_plot(xc,yc,hs,45.0,315.0,0.75)
-    savefig(path_plot*"plot_hillshade.png")
+    ini_plots!(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     @info "Figs saved in" path_plot
-
     # set & get vectors
     U,F,G = getUF(h,Qx,Qy,g,nx,ny)
     # set time
@@ -36,11 +14,6 @@
     # plot & time stepping parameters
     it    = 0
     ctr   = 0
-    # generate GIF
-    if make_gif==true
-        println("[=> initializing & configuring .gif...")
-        anim = Animation()
-    end
     # action
     println("[=> action!")
     prog  = ProgressUnknown("working hard:", spinner=true,showspeed=true)
@@ -55,45 +28,27 @@
         t  += Δt
         it += 1
         if t > ctr*tC
-            ctr+=1
-                fig=gr(size=(2*250,2*125),markersize=2.5)       
-                    #fig=wave_plot(xc,yc,h,z,η0,0.1*ηmax0,nx,ny,t)
-                    #fig=free_surface_plot(xc,yc,h,z,η0,0.25*(maximum(h.+z)-η0),nx,ny,t)
-                    #fig=discharge_plot(xc,yc,h,Qx,Qy,z,2.5,nx,ny,t)
-                    #fig=profile_plot(xc,yc,h,z,zmin,10.0,nx,ny,t)
-                    fig=h_plot(xc,yc,h,0.5,nx,ny,t,flow_type)
-                    if make_gif==true
-                        frame(anim,fig)
-                    end
+            fig=gr(size=(2*250,2*125),markersize=2.5)       
+                fig=h_plot(xc,yc,h,0.5,nx,ny,t,flow_type)
+            ctr+=1    
         end
-        next!(prog;showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
+        next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
-    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
+    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T [%]",100.0)])
     println("[=> generating final plots, exporting & exiting...")
-    if make_gif==true
-        gif(anim,path_plot*solv_type*".gif")
-    end
-    savefig(path_plot*solv_type*"_plot.png")
-
-    free_surface_plot(xc,yc,h,z,η0,0.3*(maximum(h.+z)-η0),nx,ny,t)
-    savefig(path_plot*solv_type*"_freesurface.png")
+    savefig(path_plot*"hf_"*solv_type*".png")
     println("[=> done! exiting...")
     return nothing
 end
-@views function svSolverPerf(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,Δx,Δy,nx,ny,Dsim)
+@views function svSolverPerf(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,lx,ly,Δx,Δy,nx,ny,Dsim)
     solv_type  = Dsim.solv_type
     make_gif   = Dsim.make_gif
     flow_type  = Dsim.flow_type
     pcpt_onoff = Dsim.pcpt_onoff
     println("[=> plotting & saving initial geometry & conditions...")
     # display initial stuffs
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        z_plot(xc,yc,z)
-    savefig(path_plot*"plot_z_init.png")
-    gr(size=(2*250,2*125),legend=true,markersize=2.5)
-        hs=hillshade(z,Δx,Δy,45.0,315.0,nx,ny)
-        hillshade_plot(xc,yc,hs,45.0,315.0,0.75)
-    savefig(path_plot*"plot_hillshade.png")
+    ini_plots!(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
+    hs=hillshade(z,Δx,Δy,45.0,315.0,nx,ny)
     @info "Figs saved in" path_plot
     savedData=DataFrame("x"=>vec(xc))
     CSV.write(path_save*"x.csv",savedData)
@@ -127,11 +82,10 @@ end
             savedData=DataFrame("t"=>t,"Δt"=>Δt,"it"=>it)
             CSV.write(path_save*"tdt_"*string(ctr)*".csv",savedData)
             ctr+=1
-
         end
-        next!(prog;showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T",round(t/T,digits=2))])
+        next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
-    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T",1.0)])
+    ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T [%]",100.0)])
     param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL,"nsave"=>ctr-1)
     CSV.write(path_save*"parameters.csv",param)
     @info "Data saved in" path_save  

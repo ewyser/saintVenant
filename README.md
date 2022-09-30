@@ -1,24 +1,35 @@
 # ***saintVenant*** #
 ## **Description** 
-This is a small Julia project undertaken during an temporary position held at the "Centre de recherche sur l'environnement alpin" (CREALP, see https://crealp.ch). This small research project aims at solving conservative two-dimensional flow problems considering the following: 
+This is a small Julia project undertaken during an temporary position at the "Centre de recherche sur l'environnement alpin" (CREALP, see https://crealp.ch). It aims at solving conservative two-dimensional free-surface flow problems over a complex topography considering the following: 
  - the non-linear hyperbolic system of Saint-Venant equations under:
-     - a finite volume method framework 
-     - considering a Godunov-type first order solver, i.e., HLL/HLLC approximate Riemann solver.
-     - with a well-balanced approach, i.e., the hydrostatic reconstruction
+     - a finite volume method numerical framework 
+     - a Godunov-type first order solver, i.e.,
+        - Rusanov approximate solution.
+        - HLL approximate Riemann solver.
+        - HLLC approximate Riemann solver.
+     - a well-balanced scheme, i.e., the hydrostatic reconstruction method 
+ - GPU-based implementation for computational performances (only valid for Nvidia GPUs for now, i.e., ```CUDA```)
 
-This resulted in a Julia project, made publicly available on a Github repository. 
+This resulted in a Julia project, currently still in development, made publicly available on a Github repository. Everyone is welcomed to have a look to the project and the associated numerical routines. Few videos are shown below.
+
 
 <p align="center">
-  <img src="docs/example/bowl_geoflow/HLL_wave.gif" width="400"/>
+  <img src="./docs/example/vid/geoflow.gif" width="400"/>
 </p>
+<!---
+<p align="center">
+<video src="./docs/example/vid/geoflow.mp4" controls="controls" style="max-width: 460px;">
+</video>
+</p>
+-->
 
-* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Coulomb-type geomaterial flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \rho g h \tan \phi \hat{\boldsymbol{u}}$, where $\hat{\boldsymbol{u}} = (u/||\boldsymbol{v}||_2,v/||\boldsymbol{v}||_2)^T$
+* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Coulomb-type geomaterial flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \rho g h \tan \phi \hat{\boldsymbol{u}}$, where $\hat{\boldsymbol{u}} = (u/||\boldsymbol{v}||_2,v/||\boldsymbol{v}||_2)^T$.
 
 <p align="center">
-  <img src="docs/example/bowl_newtonian/HLL_wave.gif" width="400"/>
+  <img src="./docs/example/vid/runoff_1m.gif" width="400"/>
 </p>
 
-* **Fig |** Dynamics through time $t$ of the height $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down an irregular bowl-like topography with a frictional basal resistance law, i.e., $\boldsymbol{\tau} = \boldsymbol{0}$
+* **Fig |** Surface run-off $h(x,y)$ in [m] for a Newtonian-type material (e.g., water) flowing down a complex real-case topography (i.e., upper Sion, Switzerland, with DTM resolution $\Delta_{x,y}=1$ in [m]).
 
 ## **Content**
 1. [Theory](#id-section1)
@@ -80,6 +91,8 @@ $$
 \end{align}
 $$
 
+A more advanced definition of numerical fluxes is given by the HLLC approximate and considers a three-waves model. It is not presented here but relevant informations and definitions may be found in the appropriate litterature. 
+
 ### **Rusanov and Lax-Friedrich fluxes**
 Another estimate for wave speed velocities is the following:
 
@@ -93,17 +106,19 @@ where the estimate $s^{+}=\max(|u_L|+a_L,|u_R|+a_R)$. If $s_{L,R}$ are substitut
 
 $$
 	\begin{align}
-		\mathbf{F}_{i\pm\frac{1}{2}}^{\mathrm{Rus}}= \frac{1}{2}(\mathbf{F}_{L}+\mathbf{F}_{R}) - \frac{1}{2}s^{+}(\mathbf{U}_{R}-\mathbf{U}_{L}).
+		\mathbf{F}_{i\pm\frac{1}{2}}^{\mathrm{Rus}}= \frac{1}{2}(\mathbf{F}_{L}+\mathbf{F}_{R}) - \frac{s^{+}}{2}(\mathbf{U}_{R}-\mathbf{U}_{L}).
 	\end{align}
 $$
 
-If one selects $s^{+}=\frac{\Delta x}{\Delta t}$, this results in the Lax-Friedrich flux
+If $s^{+}=\frac{\Delta x}{\Delta t}$ is estimated, the Lax-Friedrich flux is obtained and now reads as
 
 $$
   \begin{align}
 	\mathbf{F}_{i\pm\frac{1}{2}}^{\mathrm{LF}}= \frac{1}{2}(\mathbf{F}_{L}+\mathbf{F}_{R}) - \frac{\Delta x}{2\Delta t}(\mathbf{U}_{R}-\mathbf{U}_{L}).
 	\end{align}
 $$
+
+Rusanov, HLL and HLLC approximate numerical fluxes are interesting because they result in a natural definition of dry-wet transitions, which can be easly dealt with. This is way these definitions were chosen in the early stages of code development. 
 
 <div id='id-section2'/> 
 
@@ -121,19 +136,15 @@ The general structure is given below:
 │   ├── py_vs_ju
 │   ├── refs
 │   └── tex
+├── license
 ├── scripts
 │   ├── basin.jl
-│   ├── benchmark.jl
 │   ├── coast.jl
 │   ├── geoflow.jl
-│   ├── geoflow_D.jl
-│   ├── readDEM.jl
 │   ├── runoff.jl
-│   └── runoff_D.jl
 ├── src
 │   ├── fun
 │   ├── fun_D
-│   ├── run.sh
 │   └── saintVenant.jl
 ├── start_macOS.sh
 └── viz
@@ -143,9 +154,7 @@ All function/folder names ending with ```[.]_D``` are those running on a GPU (D 
 
 The ```./src/fun``` folder contains all functions needed and are called by the different routines in ```./scripts```. 
 
-The ```./viz/out``` folder contains all the plots and data generated by the solver during computation and it is automatically generated by the routine
-
-If needed, modifications can be made to these routines by changing initial parameters and so on. 
+The ```./viz/out``` folder contains all the plots and data generated by the solver during computation and it is automatically generated by the routine. In addition, python scripts ```.py``` can be used to display relevant output data. 
 
 ### Run the routine ```geoflow.jl``` of the module ```saintVenant```
 
@@ -156,7 +165,7 @@ git clone https://github.com/ewyser/saintVenant
 ```
 2. Navigate to ``` ./saintVenant ``` 
 3. Launch Julia (on macOS, drag & drop ```start_macOS.sh``` in the terminal without navigating in terminal)
-```julia
+```julia-repl
 % julia --project  
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
@@ -169,7 +178,7 @@ git clone https://github.com/ewyser/saintVenant
 
 ```
 4. Enter pkg mode ``` ] ``` and instantiate the environment
-```julia
+```julia-repl
 (saintVenant) pkg> activate .
 (saintVenant) pkg> instantiate 
 (saintVenant) pkg> st
@@ -185,21 +194,30 @@ git clone https://github.com/ewyser/saintVenant
   [92933f4c] ProgressMeter v1.7.2
 ```
 5. Run a script for a Coulomb-type rheology with HLLC approximate Riemann solver, i.e., geoflow(). 
-```julia
+```julia-repl
 julia> using saintVenant
 [ Info: Precompiling saintVenant [c37ef97f-960b-44b2-99db-35f1aa5b9bae]
-julia> geoflow(20.0,10.0,200,"coulomb","HLLC")
+┌ Info: method(s) available:
+│       (✓) geoflow()
+│        └─ (✓) geoflow_D()
+│       (✓) runoff()
+│        └─ (✓) runoff_D()
+│       (✓) coast()
+└       (✓) basin()
+[ Info: viz/out/ and viz/dat/ path generated...
+julia> geoflow_D(20.0,10.0,100,5.0,1.0/25.0,"coulomb","HLLC",false)
 ```
-Then, the following lines should be seen on the REPL
-```julia
+Then, the following lines should be seen within the Julia REPL
+```julia-repl
 [=> generating initial plots & exporting...
 ┌ Info: Figs saved in
 └   path_plot = "viz/out/"
 [=> action!
 ✓ working hard: 	 Time: 0:00:06 (16.84 ms/it)
-  [nx,ny]:       (200, 100)
-  iteration(s):  367
-  (✓) t/T:       1.0
+  [lx,ly]:       (10.0, 10.0)
+  [nx,ny]:       (200, 200)
+  iteration(s):  551
+  (✓) t/T [%]:   100.0
 [=> generating final plots, exporting & exiting...
 [=> done! exiting...
 ```
