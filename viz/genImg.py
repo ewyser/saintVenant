@@ -12,6 +12,13 @@ from matplotlib import cm
 import csv 
 import os
 
+def howMany(path_list,filename,relPath):
+	for files in sorted(os.listdir(relPath)):
+		if files.startswith((filename, '.csv')):
+			path_list.append(os.path.join(relPath, files))
+	return(len(path_list))
+
+
 # latex 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -24,7 +31,6 @@ D    = np.genfromtxt('./dat/parameters.csv', delimiter=',')
 nx   = int(D[1,0])
 ny   = int(D[1,1])
 dx   = float(D[1,2])
-nsave= int(D[1,6])
 D    = np.genfromtxt('./dat/x.csv', delimiter=',')
 xc   = D[1:nx*ny+1]
 
@@ -72,8 +78,9 @@ with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutori
 	plt.draw()
 	ax0.cla()
 
+n = howMany([],"hQxQy","dat/")
 fig, ax = plt.subplots(figsize=(4,4)) 
-for k in range(0,nsave+1,1):
+for k in range(0,n,1):
 	# load data
 	name = "./dat/tdt_"+str(k)+".csv"
 	D    = np.genfromtxt(name, delimiter=',')
@@ -96,6 +103,6 @@ for k in range(0,nsave+1,1):
 	cb.remove()
 	plt.draw()
 	ax.cla()
-	print(" completion: "+str(round(k/nsave,2)*100)+" %",end="\r")                                                                                                        
+	print(" completion: "+str(round(k/(n-1),2)*100)+" %",end="\r")                                                                                                        
 print("\n done!\n")
 	

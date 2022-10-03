@@ -7,6 +7,11 @@ import matplotlib.pyplot as plt
 #from mpl_toolkits.axes_grid1 import make_axes_locatable
 import csv 
 import os
+def howMany(path_list,filename,relPath):
+	for files in sorted(os.listdir(relPath)):
+		if files.startswith((filename, '.csv')):
+			path_list.append(os.path.join(relPath, files))
+	return(len(path_list))
 
 # https://www.oreilly.com/library/view/python-data-science/9781491912126/ch04.html
 
@@ -22,7 +27,6 @@ cBtype  = 'Blues'
 D    = np.genfromtxt('./dat/parameters.csv', delimiter=',')
 nx   = int(D[1,0])
 ny   = int(D[1,1])
-nsave= int(D[1,6])
 D    = np.genfromtxt('./dat/x.csv', delimiter=',')
 xc   = D[1:nx*ny+1]
 
@@ -46,12 +50,14 @@ al=np.ones((ny,nx),dtype=float)
 if not os.path.exists('./img'):
 	os.makedirs('./img') 
 
+n = howMany([],"hQxQy","dat/")
+
 lvl=[0.031,0.062,0.125,0.25,0.5]
 #lvl =np.linspace(0.01,0.5,num=7,endpoint=True,dtype=float)
 lim = [0.0, np.amax(xc), 0.0, np.amax(yc)]
 fig, ax = plt.subplots(figsize=(4,4)) 
 #with plt.style.context('dark_background'): #https://matplotlib.org/stable/tutorials/introductory/customizing.html, https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html
-for k in range(0,nsave+1,1):
+for k in range(0,n,1):
 	# load data
 	name = "./dat/tdt_"+str(k)+".csv"
 	D    = np.genfromtxt(name, delimiter=',')
@@ -77,5 +83,5 @@ for k in range(0,nsave+1,1):
 	cb.remove()
 	plt.draw()
 	ax.cla()
-	print(" completion: "+str(round(k/nsave,2)*100.0)+" %",end="\r") 
+	print(" completion: "+str(round(k/(n-1),2)*100.0)+" %",end="\r") 
 print("\n done!\n")
