@@ -78,6 +78,8 @@ end
     CSV.write(path_save*"y.csv",savedData)
     savedData=DataFrame("z"=>vec(z),"hs"=>vec(hs))
     CSV.write(path_save*"zhs.csv",savedData)  
+    param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL)
+    CSV.write(path_save*"parameters.csv",param)
     # define grid & block sizes for kernel launch parameters 
     BLOCKx    = 32
     BLOCKy    = 16
@@ -131,8 +133,6 @@ end
         next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
     ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T [%]",100.0)])
-    param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL,"nsave"=>ctr-1)
-    CSV.write(path_save*"parameters.csv",param)
     @info "Data saved in" path_save  
     println("[=> done! exiting...")
     return nothing

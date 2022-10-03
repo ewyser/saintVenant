@@ -50,12 +50,7 @@ end
     ini_plots!(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     hs=hillshade(z,Δx,Δy,45.0,315.0,nx,ny)
     @info "Figs saved in" path_plot
-    savedData=DataFrame("x"=>vec(xc))
-    CSV.write(path_save*"x.csv",savedData)
-    savedData=DataFrame("y"=>vec(yc))
-    CSV.write(path_save*"y.csv",savedData)
-    savedData=DataFrame("z"=>vec(z),"hs"=>vec(hs))
-    CSV.write(path_save*"zhs.csv",savedData)  
+    saved!(xc,yc,z,hs,nx,ny,Δx,Δy,T,CFL)
     # set & get vectors
     U,F,G = getUF(h,Qx,Qy,g,nx,ny)
     # set time
@@ -86,8 +81,6 @@ end
         next!(prog;showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✗) t/T [%]",round(100.0*t/T,digits=1))])
     end
     ProgressMeter.finish!(prog, spinner = '✓',showvalues = [("[lx,ly]",(round(lx),round(ly))),("[nx,ny]",(nx,ny)),("iteration(s)",it),("(✓) t/T [%]",100.0)])
-    param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL,"nsave"=>ctr-1)
-    CSV.write(path_save*"parameters.csv",param)
     @info "Data saved in" path_save  
     println("[=> done! exiting...")
     return nothing
