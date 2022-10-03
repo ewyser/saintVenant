@@ -5,7 +5,7 @@
     pcpt_onoff = Dsim.pcpt_onoff
     println("[=> generating initial plots & exporting...")
     # display initial stuffs
-    __ini_plots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
+    __iniPlots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     @info "Figs saved in" path_plot
     # set & get vectors
     U,F,G = getUF(h,Qx,Qy,g,nx,ny)
@@ -47,10 +47,10 @@ end
     pcpt_onoff = Dsim.pcpt_onoff
     println("[=> plotting & saving initial geometry & conditions...")
     # display initial stuffs
-    __ini_plots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
+    __iniPlots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     hs=hillshade(z,Δx,Δy,45.0,315.0,nx,ny)
     @info "Figs saved in" path_plot
-    __saved(xc,yc,z,hs,nx,ny,Δx,Δy,T,CFL)
+    __iniData(xc,yc,z,hs,nx,ny,Δx,Δy,T,CFL)
     # set & get vectors
     U,F,G = getUF(h,Qx,Qy,g,nx,ny)
     # set time
