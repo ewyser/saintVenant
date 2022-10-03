@@ -9,7 +9,7 @@ path_list=[]
 vid_name = sys.argv[1]
 #accessing path of each image
 for image in sorted(os.listdir('img/')):
-    if image.endswith(".png"):
+    if (image.endswith(".png")) and (image.startswith("h_")):
         path_list.append(os.path.join('img/', image))
 #creating slide for each image
 for img_path in path_list:
