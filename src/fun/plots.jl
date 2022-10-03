@@ -278,7 +278,7 @@ default(
     end
 end
 
-@views function ini_plots!(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
+@views function __ini_plots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     η0   = minimum(h.+z)
     zmin = minimum(z)
     ηmax0= maximum(h.+z)

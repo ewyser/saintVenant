@@ -5,7 +5,7 @@
     pcpt_onoff = Dsim.pcpt_onoff
     println("[=> generating initial plots & exporting...")
     # display initial stuffs
-    ini_plots!(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
+    __ini_plots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     @info "Figs saved in" path_plot
     # define grid & block sizes for kernel launch parameters 
     BLOCKx    = 32
@@ -69,17 +69,10 @@ end
     pcpt_onoff = Dsim.pcpt_onoff
     println("[=> plotting & saving initial geometry & conditions...")
     # display initial stuffs
-    ini_plots!(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
+    __ini_plots(xc,yc,z,h,Δx,Δy,nx,ny,flow_type)
     hs=hillshade(z,Δx,Δy,45.0,315.0,nx,ny)
     @info "Figs saved in" path_plot
-    savedData=DataFrame("x"=>vec(xc))
-    CSV.write(path_save*"x.csv",savedData)
-    savedData=DataFrame("y"=>vec(yc))
-    CSV.write(path_save*"y.csv",savedData)
-    savedData=DataFrame("z"=>vec(z),"hs"=>vec(hs))
-    CSV.write(path_save*"zhs.csv",savedData)  
-    param=DataFrame("nx"=>nx,"ny"=>ny,"dx"=>Δx,"dy"=>Δy,"t"=>T,"CFl"=>CFL)
-    CSV.write(path_save*"parameters.csv",param)
+    __saved(xc,yc,z,hs,nx,ny,Δx,Δy,T,CFL)
     # define grid & block sizes for kernel launch parameters 
     BLOCKx    = 32
     BLOCKy    = 16
