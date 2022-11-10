@@ -389,6 +389,39 @@ end
             end
         end
     end
+
+    #=
+    # number of points
+    Δx,Δy  = lx/nx,ly/ny 
+    x,y    = -lx/2:Δx:lx/2,0.0:Δy:ly
+    # calculate midpoint values of x in each control vlume
+    xc,yc  = 0.5.*(x[1:nx]+x[2:nx+1]),0.5.*(y[1:ny]+y[2:ny+1])
+    # set initial bed topography 
+    H      = lx/10
+    z      = zeros(Float64,nx,ny)
+    Rt = 0.75*ly
+    Rb = 0.7*ly
+    for j ∈ 1:ny
+        for i ∈ 1:nx
+            z[i,j] = 2*H*(sqrt(xc[i]^2+yc[j]^2)-Rb)/(Rt-Rb)
+        end
+    end
+    # set initial fluid height
+    h      = zeros(Float64,nx,ny)
+    xc0    = 0.0
+    yc0    = ly/2
+    R      = 2.5*H
+    H      = 1.0
+    for i ∈ 1:nx
+        for j ∈ 1:ny
+            d = (xc[i]-xc0)^2+(yc[j]-yc0)^2
+            if sqrt(d)<=R
+                h[i,j] = H*exp(-1.0/(R^2-d))
+                #z[i,j]-= h[i,j]
+            end
+        end
+    end
+    =#
     return(h,z,xc,yc,Δx,Δy)
 end
 @views function staron_etal_2004(lx,ly,nx,ny)
