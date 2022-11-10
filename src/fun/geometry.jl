@@ -149,7 +149,7 @@ end
     xc,yc  = 0.5.*(x[1:nx]+x[2:nx+1]),0.5.*(y[1:ny]+y[2:ny+1])
     # set initial bed topography
     z      = exp.(((xc.-lx/2)./(lx./3)).^2 .+((yc.-ly/2)./(ly./3))'.^2)
-    Δz     = 0.5
+    Δz     = 0.25
     δz     = 1.0.*Δz.*(2.0.*rand(nx,ny).-1.0)
     nr     = 2
     n      = nr+nx*ny
@@ -182,7 +182,7 @@ end
             end
         end
     end
-    #=
+
     xc0 = lx/2
     yc0 = 0.2*ly
     for i ∈ 1:nx
@@ -193,6 +193,7 @@ end
             end
         end
     end
+    #=
     =#
     return(h,z,xc,yc,Δx,Δy)
 end
@@ -350,6 +351,67 @@ end
     for i ∈ 1:nx
         for j ∈ 1:ny
             h[i,j]=max(0.0,hi-z[i,j])
+        end
+    end
+    return(h,z,xc,yc,Δx,Δy)
+end
+@views function zhang_etal_2022(lx,ly,nx,ny)
+    # number of points
+    Δx,Δy  = lx/nx,ly/ny 
+    x,y    = -lx/2:Δx:lx/2,-ly/2:Δy:ly/2
+    # calculate midpoint values of x in each control vlume
+    xc,yc  = 0.5.*(x[1:nx]+x[2:nx+1]),0.5.*(y[1:ny]+y[2:ny+1])
+    # set initial bed topography 
+    ϕc     = 30.0*pi/180
+    H      = lx/20
+    z      = zeros(Float64,nx,ny)
+    for j ∈ 1:ny
+        for i ∈ 1:nx
+            if yc[j]<0.0
+                z[i,j] = -H*(1.0-exp((yc[j]/H)*tan(ϕc)))
+            elseif yc[j]>=0.0
+                z[i,j] =  H*(1.0-exp(-(yc[j]/H)*tan(ϕc)))
+            end
+        end
+    end
+    # set initial fluid height
+    h      = zeros(Float64,nx,ny)
+    xc0    = 0.0
+    yc0    = 0.0
+    R      = 2.5*H
+    H      = 1.0
+    for i ∈ 1:nx
+        for j ∈ 1:ny
+            d = (xc[i]-xc0)^2+(yc[j]-yc0)^2
+            if sqrt(d)<=R
+                h[i,j] = H*exp(-1.0/(R^2-d))
+                #z[i,j]-= h[i,j]
+            end
+        end
+    end
+    return(h,z,xc,yc,Δx,Δy)
+end
+@views function staron_etal_2004(lx,ly,nx,ny)
+    # number of points
+    Δx,Δy  = lx/nx,ly/ny 
+    x,y    = -lx/2:Δx:lx/2,-ly/2:Δy:ly/2
+    # calculate midpoint values of x in each control vlume
+    xc,yc  = 0.5.*(x[1:nx]+x[2:nx+1]),0.5.*(y[1:ny]+y[2:ny+1])
+    # set initial bed topography 
+    H      = lx/20
+    z      = zeros(Float64,nx,ny)
+    # set initial fluid height
+    h      = zeros(Float64,nx,ny)
+    xc0    = 0.0
+    yc0    = 0.0
+    R      = lx/10
+    H      = 2.0*R
+    for i ∈ 1:nx
+        for j ∈ 1:ny
+            d = (xc[i]-xc0)^2+(yc[j]-yc0)^2
+            if sqrt(d)<=R
+                h[i,j] = H
+            end
         end
     end
     return(h,z,xc,yc,Δx,Δy)
