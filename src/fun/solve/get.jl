@@ -37,15 +37,9 @@ end
 @views function getU!(U,h,Qx,Qy,nx,ny)
     for j ∈ 1:ny
         for i ∈ 1:nx
-            if h[i,j] > 0.0
-                U[i,j,1] = h[i,j]
-                U[i,j,2] = Qx[i,j]
-                U[i,j,3] = Qy[i,j]
-            else
-                U[i,j,1] = 0.0
-                U[i,j,2] = 0.0
-                U[i,j,3] = 0.0
-            end
+            U[i,j,1] = h[i,j]
+            U[i,j,2] = Qx[i,j]
+            U[i,j,3] = Qy[i,j]
         end
     end
     return nothing

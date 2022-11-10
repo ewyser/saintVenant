@@ -31,7 +31,7 @@ end
     h,z,xc,yc,Δx,Δy = incline(lx,ly,nx,ny)
     #h,z,xc,yc,Δx,Δy = bowl_floor(lx,ly,nx,ny)
     # action
-    CFL    = 0.05
+    CFL    = 0.5
     if isViz == true
         svSolver_D(xc,yc,h,Qx,Qy,z,g,CFL,T,tC,lx,ly,Δx,Δy,nx,ny,Dsim)
     elseif isViz == false
