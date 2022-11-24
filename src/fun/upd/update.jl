@@ -10,7 +10,7 @@
 end
 @views function updateAdvU!(U,S,Δt,nx,ny,nD,flow_type)
     if flow_type=="coulomb"
-        for dim ∈ 1:nD
+        for dim ∈ 2:3
             for j ∈ 1:ny
                 for i ∈ 1:nx
                     U[i,j,dim]+=Δt*S[i,j,dim]
@@ -18,7 +18,7 @@ end
             end
         end
     end
-    if flow_type=="newtonian" || flow_type=="plastic"
+    if flow_type=="newtonian"
         for dim ∈ 1:3
             for j ∈ 1:ny
                 for i ∈ 1:nx
@@ -27,6 +27,15 @@ end
                     else
                         U[i,j,dim]/=(1.0+Δt*S[i,j,dim])
                     end
+                end
+            end
+        end
+    end
+    if flow_type=="plastic"
+        for dim ∈ 2:3
+            for j ∈ 1:ny
+                for i ∈ 1:nx
+                    U[i,j,dim]/=(1.0+Δt*S[i,j,dim])
                 end
             end
         end
