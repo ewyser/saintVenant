@@ -1,6 +1,10 @@
 @views function geoflow(lx::Float64,ly::Float64,nx::Int64,T::Float64,tC::Float64,rheoType::String,solvType::String,isViz::Bool)
-    Dsim   = param(solvType,false,rheoType,false)
-    #Dsim   = param("HLLC",false,"newtonian",false)
+    Dsim = (
+        solv_type  = solvType,
+        make_gif   = false,
+        flow_type  = rheoType,
+        pcpt_onoff = false,
+        )
     # physical constant
     g      = 9.81
     # number of points
@@ -20,8 +24,12 @@
     end
 end
 @views function geoflow_D(lx::Float64,ly::Float64,nx::Int64,T::Float64,tC::Float64,rheoType::String,solvType::String,isViz::Bool)
-    Dsim   = param(solvType,false,rheoType,false)
-    #Dsim   = param("HLLC",false,"newtonian",false)
+    Dsim = (
+        solv_type  = solvType,
+        make_gif   = false,
+        flow_type  = rheoType,
+        pcpt_onoff = false,
+        )
     # physical constant
     g      = 9.81
     # number of points
