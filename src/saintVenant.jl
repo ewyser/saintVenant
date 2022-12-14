@@ -22,11 +22,11 @@ include(joinpath("./fun"  , "superInclude.jl"  )) # standard dependencies
         @info t[1]*t[2]*t[3]*t[4]*t[5]
     end
 # initialize & generate outputs and data folders
-    global path_plot = "viz/out/"
+    global path_plot = "./viz/out/"
     if isdir(path_plot)==false
         mkdir(path_plot)    
     end
-    global path_save = "viz/dat/"
+    global path_save = "./viz/dat/"
     if isdir(path_save)==false
         mkdir(path_save)    
     end
