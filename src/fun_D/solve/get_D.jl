@@ -1,4 +1,4 @@
-@views function getUh_D(U,h,Qx,Qy,nx,ny,switch)
+@views function getUh_D!(U,h,Qx,Qy,nx,ny,switch)
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -17,7 +17,7 @@
     end
     return nothing
 end
-@views function setUFS_D(UFS,nx,ny)
+@views function setUFS_D!(UFS,nx,ny)
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y

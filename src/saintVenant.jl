@@ -2,9 +2,9 @@ module saintVenant
 export geoflow,runoff,coast,basin # host code
 export geoflow_D,runoff_D # device code
 # include dependencies & function call(s)
-include(joinpath("./fun"  , "superInclude.jl"  )) # standard dependencies
+include(joinpath("./fun"  , "_superORCH.jl"  )) # standard dependencies
     try
-        include(joinpath("./fun_D", "superInclude_D.jl")) # additional dependencies for Device & GPU computing
+        include(joinpath("./fun_D", "_superORCH_D.jl")) # additional dependencies for Device & GPU computing
         t = ["method(s) available:\n\t",
              "(✓) geoflow()\n\t └─ (✓) geoflow_D()\n\t",
              "(✓) runoff() \n\t └─ (✓) runoff_D() \n\t", 

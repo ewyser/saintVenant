@@ -1,4 +1,4 @@
-@views function getBCs_D(Abc,A,nx,ny,nD,BCtype)
+@views function getBCs_D!(Abc,A,nx,ny,nD,BCtype)
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -49,7 +49,7 @@
     end
     return nothing
 end
-@views function getBC_D(zbc,Ubc,z,U,nx,ny,direction)
+@views function getBC_D!(zbc,Ubc,z,U,nx,ny,direction)
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y

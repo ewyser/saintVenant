@@ -1,4 +1,4 @@
-@views function τCoulomb_D(S,U,z,g,nx,ny,Δx,Δy)
+@views function τCoulomb_D!(S,U,z,g,nx,ny,Δx,Δy)
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -32,7 +32,7 @@
     end
     return nothing
 end
-@views function τNewtonian_D(S,U,z,g,ϵp,nx,ny,Δx,Δy,pcpt_onoff)
+@views function τNewtonian_D!(S,U,z,g,ϵp,nx,ny,Δx,Δy,pcpt_onoff)
     # index initialization
     i = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -60,17 +60,17 @@ end
     end
     return nothing
 end
-@views function souSolve_D(cublocks,cuthreads,h,Qx,Qy,S,U,z,g,Δx,Δy,t,Δt,nx,ny,flow_type,pcpt_onoff)
+@views function souSolve_D!(cublocks,cuthreads,h,Qx,Qy,S,U,z,g,Δx,Δy,t,Δt,nx,ny,flow_type,pcpt_onoff)
     if flow_type=="coulomb"
-        @cuda blocks=cublocks threads=cuthreads τCoulomb_D(S,U,z,g,nx,ny,Δx,Δy)
+        @cuda blocks=cublocks threads=cuthreads τCoulomb_D!(S,U,z,g,nx,ny,Δx,Δy)
         synchronize()
-        @cuda blocks=cublocks threads=cuthreads advU!_D(h,Qx,Qy,U,S,Δt,nx,ny,1)
+        @cuda blocks=cublocks threads=cuthreads advU_D!(h,Qx,Qy,U,S,Δt,nx,ny,1)
         synchronize()
     elseif flow_type=="newtonian"
         ϵp = 8.0e-6
-        @cuda blocks=cublocks threads=cuthreads τNewtonian_D(S,U,z,g,ϵp,nx,ny,Δx,Δy,1)
+        @cuda blocks=cublocks threads=cuthreads τNewtonian_D!(S,U,z,g,ϵp,nx,ny,Δx,Δy,1)
         synchronize()
-        @cuda blocks=cublocks threads=cuthreads advU!_D(h,Qx,Qy,U,S,Δt,nx,ny,2)
+        @cuda blocks=cublocks threads=cuthreads advU_D!(h,Qx,Qy,U,S,Δt,nx,ny,2)
         synchronize()
     end
     return nothing

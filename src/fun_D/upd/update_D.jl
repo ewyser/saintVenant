@@ -1,4 +1,4 @@
-@views function U!_D(h,Qx,Qy,U,UFS,c,nx,ny,dim)
+@views function U_D!(h,Qx,Qy,U,UFS,c,nx,ny,dim)
     # index initialization
     i  = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j  = (blockIdx().y-1)*blockDim().y+threadIdx().y
@@ -19,7 +19,7 @@
     end
     return nothing
 end
-@views function advU!_D(h,Qx,Qy,U,S,Δt,nx,ny,type)
+@views function advU_D!(h,Qx,Qy,U,S,Δt,nx,ny,type)
     # index initialization
     i  = (blockIdx().x-1)*blockDim().x+threadIdx().x
     j  = (blockIdx().y-1)*blockDim().y+threadIdx().y
