@@ -36,7 +36,9 @@ end
     ny     = Int64((ly/lx)*nx)
     Qx     = zeros(Float64,nx,ny)
     Qy     = zeros(Float64,nx,ny)
-    h,z,xc,yc,Δx,Δy = incline(lx,ly,nx,ny)
+    #h,z,xc,yc,Δx,Δy = staron_etal_2004(lx,ly,nx,ny)
+    h,z,xc,yc,Δx,Δy = zhang_etal_2022(lx,ly,nx,ny)
+    #h,z,xc,yc,Δx,Δy = incline(lx,ly,nx,ny)
     #h,z,xc,yc,Δx,Δy = bowl_floor(lx,ly,nx,ny)
     # action
     CFL    = 0.5
