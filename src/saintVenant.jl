@@ -43,7 +43,7 @@ include(joinpath("./fun"  , "_superORCH.jl"  )) # standard dependencies
         - rheoType : select the rheology, i.e., "coulomb", "newtonian" or "plastic"
         - solveType: select the numerical flux, i.e., "Rusanov", "HLL" or "HLLC"
         - isViz    : plot or save, true or false
-        To run geoflow() on a GPU, add _D, i.e., geoflow_D(lx::Float64,ly::Float64,nx::Int64,T::Float64,tC::Float64,rheoType::String,solvType::String,isViz::Bool)
+        To run geoflow() on a GPU, add *_D, i.e., geoflow_D(lx::Float64,ly::Float64,nx::Int64,T::Float64,tC::Float64,rheoType::String,solvType::String,isViz::Bool)
     """
     geoflow()
     include(joinpath("../scripts", "geoflow.jl"))
@@ -56,7 +56,7 @@ include(joinpath("./fun"  , "_superORCH.jl"  )) # standard dependencies
         - ym       : min and max coordinates along y-direction
         - T        : total simulation time in [s].
         - tC       : time interval for saving/plotting
-        - isViz    : plot or save, true or false
+        - isViz    : plot or save, i.e., true or false
         On Windows OS, use "/" instead of "\" for the path 
     """
     runoff()
@@ -65,7 +65,8 @@ include(joinpath("./fun"  , "_superORCH.jl"  )) # standard dependencies
     include(joinpath("../scripts", "coast.jl"))
 # include basin routine in saintVenant module
     include(joinpath("../scripts", "basin.jl"))   
-
+# showcase
+    @info "first run ever ?\n\t - copy-paste the following: \n\t\tgeoflow(10.0,10.0,200,10.0,1.0/25.0,\"coulomb\",\"HLLC\",true)\n\t - wait for the simulation to end"
 end
 
 #=
@@ -79,4 +80,5 @@ When changing stuffs within the module, in REPL, enter the following:
     julia> saintVenant.geoflow(20.0,10.0,200)
 
 ----------------------------------------------------------------------
+geoflow(10.0,10.0,200,10.0,1.0/25.0,"coulomb","HLLC",true)
 =#
