@@ -76,4 +76,4 @@ end
 end
 # https://techytok.com/lesson-parallel-computing
 # https://nbviewer.org/github/daniel-koehn/Differential-equations-earth-system/blob/master/10_Shallow_Water_Equation_2D/01_2D_Shallow_Water_Equations.ipynb
-# "runoff_D("C:/Users/crealp/Desktop/manu_GPU/dat/dtm_1m/dsm_sion.asc",(0.0,600.0),(0.0,600.0),3600.0,600.0,true)"
+# "runoff_D("C:/Users/Terranum/Dropbox/Jobs/_CREALP/numeric/nD_code/dat/dtm_5m/dsm_sion.asc",(0.0,2*1200.0),(0.0,2*1200.0),3600.0,600.0,true)"
