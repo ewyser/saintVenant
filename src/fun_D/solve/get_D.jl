@@ -33,10 +33,7 @@ end
 end
 @views function getΔt_D(h,Qx,Qy,g,Δx,Δy,CFL,nx,ny)
     # find minimal Δt consistent with CFL
-    cx = 0.0
-    cy = 0.0
-    Δ  = min(Δx,Δy)
-    cx = findmax(abs.(Qx./h).+sqrt.(g.*h))
-    cy = findmax(abs.(Qy./h).+sqrt.(g.*h))    
-    return CFL*Δ/(max(cx[1],cy[1]))
+    cx = maximum(abs.(Qx./h).+sqrt.(g.*h))
+    cy = maximum(abs.(Qy./h).+sqrt.(g.*h))    
+    return CFL*min(Δx,Δy)/(max(cx,cy))
 end

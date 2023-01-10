@@ -41,7 +41,7 @@
     prog  = ProgressUnknown("working hard:", spinner=true,showspeed=true)
     while t<T
     	# adaptative Δt
-        Δt  = getΔt(Array(h_D),Array(Qx_D),Array(Qy_D),g,Δx,Δy,CFL,nx,ny)
+        Δt = getΔt_D(h_D,Qx_D,Qy_D,g,Δx,Δy,CFL,nx,ny)
         # advection step solution
         advSolve_D!(cublocks,cuthreads,h_D,Qx_D,Qy_D,UFS_D,Ubc_D,U_D,zbc_D,z_D,g,Δx,Δy,Δt,nx,ny,solv_type)
         # source step solution
@@ -107,8 +107,7 @@ end
     prog  = ProgressUnknown("working hard:", spinner=true,showspeed=true)
     while t<T
     	# adaptative Δt
-        Δt  = getΔt(Array(h_D),Array(Qx_D),Array(Qy_D),g,Δx,Δy,CFL,nx,ny)
-        #Δt  = getΔt(Array(h_D),Array(Qx_D),Array(Qy_D),g,Δx,Δy,CFL,nx,ny)
+        Δt = getΔt_D(h_D,Qx_D,Qy_D,g,Δx,Δy,CFL,nx,ny)
         # advection step solution
         advSolve_D!(cublocks,cuthreads,h_D,Qx_D,Qy_D,UFS_D,Ubc_D,U_D,zbc_D,z_D,g,Δx,Δy,Δt,nx,ny,solv_type)
         # source step solution
